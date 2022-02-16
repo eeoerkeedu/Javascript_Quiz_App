@@ -18,14 +18,14 @@ var userProfile = {
 };
 
 //questions to be asked
-var questions = [];
+var questions = ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.", "10."];
+var answers = ["B", "C", "B", "A", "C", "B", "B", "A", "C", "A"];
 
 // funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
 function beginQuiz() {
   //displays the quiz and hide the scoreboard
   scoreBoardEL.style.display = "none";
   quizBoxEL.style.display = "block";
-  TimeRemaining = 1;
   score = [];
   window.alert("Beginning Quiz" + "\n" + "Watch your time...");
 
@@ -37,18 +37,43 @@ function beginQuiz() {
 
     if (timeLeft === 0) {
       clearInterval(countDown);
-      displayMessage();
-      timerEl.textContent = null;
+
+      displayQuestion();
     }
   }, 1000);
-
-  //start timer
-  //display question -contains buttons
 }
 
-// Button to hide scoreboard, initiate test, and start timer
+function displayQuestion() {
+  var questionNum = 0;
+  var timeLeft = 50;
 
-// intiate page load
+  var countDown = setInterval(function () {
+    // displayMessage();
+    timeLeft--;
+    timerEL.textContent = timeLeft + " Seconds Remaining";
+
+    if (timeLeft === 0) {
+      clearInterval(countDown);
+    }
+  }, 100);
+
+  var questionInterval = setInterval(function () {
+    if (questions[questionNum] === undefined) {
+      clearInterval(questionInterval);
+    } else {
+      quizBoxEL.textContent = questions[questionNum];
+      questionNum++;
+    }
+  }, 500);
+}
+
+function handleQuizQuestions() {
+  //display 3 buttons everytime the questionNum changes
+  //buttons declare right or wrong and adjust time if needed
+  //
+}
+
+//hides the quiz, resets the quiz if clicked, shows scoreboard
 function showScores() {
   //hide quiz
   quizBoxEL.style.display = "none";
@@ -58,8 +83,11 @@ function showScores() {
   scoreBoardEL.style.display = "block";
 }
 
+// button on scoreboard to start quiz
 quizStartButtonEL.addEventListener("click", beginQuiz);
 
+// button in "nav" area to show scoreboard
 scoreBoardNavEL.addEventListener("click", showScores);
 
+// intiates function on page load
 showScores();
