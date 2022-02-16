@@ -19,12 +19,12 @@ header section {
   right: 0;
   bottom: 0;
   margin: 0;
-  display: flex;
+  display: inline;
   width: 50%;
 }
 
 header section div {
-  display: inline-flex;
+  display: inline;
   padding: 1%;
   text-align: left;
 }
@@ -38,19 +38,19 @@ h1 {
   flex-shrink: 2;
 }
 
-main {
-  min-height: 75vh;
-  color: rgb(255, 255, 220);
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+#timer {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 3%;
+  font-weight: bold;
+  font-size: x-large;
 }
 
 #highscores {
   position: absolute;
   right: 0;
-  margin-right: 5%;
+  bottom: 0;
+  margin-right: 3%;
 }
 
 #highscores a {
@@ -59,6 +59,15 @@ main {
   padding: 0;
   text-decoration: none;
   color: rgb(255, 255, 220);
+}
+
+main {
+  min-height: 75vh;
+  color: rgb(255, 255, 220);
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 h2 {
