@@ -70,6 +70,25 @@ main {
   flex-wrap: nowrap;
 }
 
+#buttonbox {
+  width: 50%;
+  display: inline;
+  position: absolute;
+  bottom: 20%;
+  left: 25%;
+}
+
+.answerButtons {
+  color: rgb(255, 255, 220);
+  background-color: black;
+  border-color: rgb(255, 255, 220);
+  height: 3rem;
+  width: 3rem;
+  font-size: 2rem;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 h2 {
   text-align: center;
   margin: 1%;
@@ -89,6 +108,7 @@ footer {
   height: 65vh;
   margin: 1%;
   padding: 1%;
+  position: relative;
 }
 
 @media screen and (max-width: 768px) {

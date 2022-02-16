@@ -2,13 +2,20 @@
 var timerEL = document.getElementById("timer");
 var scoreBoardEL = document.getElementById("scoreblock");
 var quizBoxEL = document.getElementById("quizblock");
+var questionZone = document.getElementById("questionzone");
 var quizStartButtonEL = document.getElementById("startquiz");
 var scoreBoardNavEL = document.getElementById("highscores");
+var answerButtonsEL = quizBoxEL.children[0];
+var answer1ButtonEL = quizBoxEL.children[0].children[0];
+var answer2ButtonEL = quizBoxEL.children[0].children[1];
+var answer3ButtonEL = quizBoxEL.children[0].children[2];
+var answerDisplayEL = document.getElementById("answerDisplay");
 
 //defining variables
 var TimeRemaining = 0;
 var score = 0;
 var userName = "";
+var questionNum = 0;
 
 //user profile to track stats
 var userProfile = {
@@ -19,15 +26,18 @@ var userProfile = {
 
 //questions to be asked
 var questions = ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.", "10."];
-var answers = ["B", "C", "B", "A", "C", "B", "B", "A", "C", "A"];
+
+//answers to the questions
+var answers = ["2", "3", "2", "1", "3", "2", "2", "1", "3", "1"];
 
 // funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
 function beginQuiz() {
   //displays the quiz and hide the scoreboard
   scoreBoardEL.style.display = "none";
   quizBoxEL.style.display = "block";
+
   score = [];
-  window.alert("Beginning Quiz" + "\n" + "Watch your time...");
+  alert("Beginning Quiz" + "\n" + "Watch your time...");
 
   var timeLeft = 4;
   var countDown = setInterval(function () {
@@ -44,11 +54,10 @@ function beginQuiz() {
 }
 
 function displayQuestion() {
-  var questionNum = 0;
+  questionNum = 0;
   var timeLeft = 50;
 
   var countDown = setInterval(function () {
-    // displayMessage();
     timeLeft--;
     timerEL.textContent = timeLeft + " Seconds Remaining";
 
@@ -61,25 +70,28 @@ function displayQuestion() {
     if (questions[questionNum] === undefined) {
       clearInterval(questionInterval);
     } else {
-      quizBoxEL.textContent = questions[questionNum];
+      questionZone.textContent = questions[questionNum];
       questionNum++;
     }
   }, 500);
 }
 
 function handleQuizQuestions() {
-  //display 3 buttons everytime the questionNum changes
-  //buttons declare right or wrong and adjust time if needed
-  //
+  //buttons declare right move to next question and add score, or wrong and adjust time
+  var correct = (answerDisplayEL.textContent = "That was Correct! + 25pts");
+  var wrong = (answerDisplayEL.textContent =
+    "Wrong, the correct answer was " +
+    answers[questionNum] +
+    " -5 seconds from quiz time");
 }
 
 //hides the quiz, resets the quiz if clicked, shows scoreboard
 function showScores() {
-  //hide quiz
   quizBoxEL.style.display = "none";
-  //stop quiz
 
-  //show scoreboard -- user best
+  timeLeft = 0;
+  //   handleSaveScore();
+
   scoreBoardEL.style.display = "block";
 }
 

@@ -17,15 +17,21 @@
         <h1> JS Fundamentals Quiz</h1>
         <section>
             <div class="nav" id="timer"></div>
-            <div class="nav" id="highscores"> <a href="#scoreboard"><h3>Scoreboard</h3></a></div>
+            <div class="nav" id="highscores"> <a href="#scoreboard"><h3>View Scoreboard</h3></a></div>
         </section>
     </header>
     
     <main>
-        <div class="viewblock" id="quizblock" data-state="hidden">
-            <div></div>
+        <div class="viewblock" id="quizblock">
+            <div id="questionzone"></div>
+            <div id="buttonbox">
+                <button class="answerButtons"> 1. </button>
+                <button class="answerButtons"> 2. </button>
+                <button class="answerButtons"> 3. </button>
+            </div>
+            <div id="answerdisplay"></div>
         </div>
-        <div class="viewblock" id="scoreblock" data-state="shown">
+        <div class="viewblock" id="scoreblock">
             <div></div>
             <button id="startquiz">Start Quiz</button>
         </div>
