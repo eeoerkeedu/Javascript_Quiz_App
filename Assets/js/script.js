@@ -4,7 +4,6 @@ var scoreBoardEL = document.getElementById("scoreblock");
 var quizBoxEL = document.getElementById("quizblock");
 var questionZone = document.getElementById("questionzone");
 var quizStartButtonEL = document.getElementById("startquiz");
-var scoreBoardNavEL = document.getElementById("highscores");
 var answerButtonsEL = quizBoxEL.children[0];
 var answer1ButtonEL = document.getElementById("button1");
 var answer2ButtonEL = document.getElementById("button2");
@@ -164,9 +163,6 @@ function displayQuestion() {
 
 // button on scoreboard to start quiz
 quizStartButtonEL.addEventListener("click", beginQuiz);
-
-// button in "nav" area to show scoreboard
-scoreBoardNavEL.addEventListener("click", renderScoreboard);
 
 // intiates function on page load
 Inti();
