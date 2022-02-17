@@ -14,6 +14,13 @@ To practice some JS and API, and hone knowledge.
 
 A scoreboard to track your progress against others you want to play against.
 
-## Screen Capture
+## Screen Captures
 
+Initial Load
 ![img](./Assets/img/initial_page.PNG)
+
+Questions after timer
+![img](./Assets/img/Capture1.PNG)
+
+Scoreboard with result
+![img](./Assets/img/Capture2.PNG)

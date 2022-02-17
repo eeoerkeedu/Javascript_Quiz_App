@@ -22,11 +22,11 @@ var users = [];
 
 //questions to be asked
 var questions = [
-  "1. press 2",
-  "2. press 3",
-  "3. press 2",
-  "4. press 1",
-  "5. press 3",
+  "1. Inside which HTML element do we put the JavaScript?     1. <js>     2. <script>     3. <scripting>",
+  "2. How do you write 'Hello World' in an alert box?     1. msgBox('Hello World')    2. alertBox('Hello World')     3. alert('Hello World')",
+  "3. The external JavaScript file must contain the <script> tag?     1. True     2. False",
+  "How do you create a function in JavaScript?     1.function myFunction()    2. function:myFunction()    3. function = myFunction()",
+  "5. How to write an IF statement in JavaScript?     1. if i==5 then     2. if i=5 then    3. if (i==5)",
   "Done",
 ];
 
