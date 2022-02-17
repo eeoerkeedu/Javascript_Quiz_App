@@ -25,14 +25,20 @@
         <div class="viewblock" id="quizblock">
             <div id="questionzone"></div>
             <div id="buttonbox">
-                <button class="answerButtons"> 1. </button>
-                <button class="answerButtons"> 2. </button>
-                <button class="answerButtons"> 3. </button>
+                <button class="answerButtons" id="button1"> 1. </button>
+                <button class="answerButtons" id="button2"> 2. </button>
+                <button class="answerButtons" id="button3"> 3. </button>
             </div>
-            <div id="answerdisplay"></div>
+            <div>
+                <ul id="answerDisplay"></ul>
+            </div>
         </div>
         <div class="viewblock" id="scoreblock">
-            <div></div>
+            <h2>High Scores!</h2>
+            <section>
+                <div id="scoreboard"></div>
+                <button id="clearbutton">Clear Scoreboard</button>
+            </section>
             <button id="startquiz">Start Quiz</button>
         </div>
     </main>

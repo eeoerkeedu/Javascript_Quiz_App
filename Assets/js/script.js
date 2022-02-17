@@ -6,100 +6,95 @@ var questionZone = document.getElementById("questionzone");
 var quizStartButtonEL = document.getElementById("startquiz");
 var scoreBoardNavEL = document.getElementById("highscores");
 var answerButtonsEL = quizBoxEL.children[0];
-var answer1ButtonEL = quizBoxEL.children[0].children[0];
-var answer2ButtonEL = quizBoxEL.children[0].children[1];
-var answer3ButtonEL = quizBoxEL.children[0].children[2];
+var answer1ButtonEL = document.getElementById("button1");
+var answer2ButtonEL = document.getElementById("button2");
+var answer3ButtonEL = document.getElementById("button3");
 var answerDisplayEL = document.getElementById("answerDisplay");
+var scoreBoardList = document.getElementById("scoreboard");
+var ClearButtonEL = document.getElementById("clearbutton");
 
 //defining variables
-var TimeRemaining = 0;
-var score = 0;
-var userName = "";
 var questionNum = 0;
+var answerNum = 0;
+var timeLeft = 0;
+var users = [];
 
 //user profile to track stats
 var userProfile = {
-  Name: userName,
-  userScore: score,
-  userTime: TimeRemaining,
+  userName: "",
+  userScore: 0,
+  userTime: 0,
 };
 
 //questions to be asked
-var questions = ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.", "10."];
+var questions = [
+  "1. press 2",
+  "2. press 3",
+  "3. press 2",
+  "4. press 1",
+  "5. press 3",
+  "6. press 2",
+  "7. press 2",
+  "8. press 1",
+  "9. press 3",
+  "10. press 1",
+];
 
 //answers to the questions
 var answers = ["2", "3", "2", "1", "3", "2", "2", "1", "3", "1"];
 
-// funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
-function beginQuiz() {
-  //displays the quiz and hide the scoreboard
-  scoreBoardEL.style.display = "none";
-  quizBoxEL.style.display = "block";
+function Inti() {
+  var storedScores = JSON.parse(localStorage.getItem("users"));
 
-  score = [];
-  alert("Beginning Quiz" + "\n" + "Watch your time...");
-
-  var timeLeft = 4;
-  var countDown = setInterval(function () {
-    // displayMessage();
-    timeLeft--;
-    timerEL.textContent = "Get ready, " + timeLeft;
-
-    if (timeLeft === 0) {
-      clearInterval(countDown);
-
-      displayQuestion();
-    }
-  }, 1000);
+  if (storedScores !== null) {
+    users = storedScores;
+  }
+  renderScoreboard();
 }
 
-function displayQuestion() {
-  questionNum = 0;
-  var timeLeft = 50;
-
-  var countDown = setInterval(function () {
-    timeLeft--;
-    timerEL.textContent = timeLeft + " Seconds Remaining";
-
-    if (timeLeft === 0) {
-      clearInterval(countDown);
-    }
-  }, 100);
-
-  var questionInterval = setInterval(function () {
-    if (questions[questionNum] === undefined) {
-      clearInterval(questionInterval);
-    } else {
-      questionZone.textContent = questions[questionNum];
-      questionNum++;
-    }
-  }, 500);
+function storeScores() {
+  localStorage.setItem("users", JSON.stringify(users));
 }
 
-function handleQuizQuestions() {
-  //buttons declare right move to next question and add score, or wrong and adjust time
-  var correct = (answerDisplayEL.textContent = "That was Correct! + 25pts");
-  var wrong = (answerDisplayEL.textContent =
-    "Wrong, the correct answer was " +
-    answers[questionNum] +
-    " -5 seconds from quiz time");
+function handleScoreStore() {
+  var userName = window.prompt(
+    "Please enter your initals to record your score"
+  );
+
+  users.push(userName);
+
+  storeScores();
+  renderScoreboard();
 }
 
-//hides the quiz, resets the quiz if clicked, shows scoreboard
-function showScores() {
+function renderScoreboard() {
+  scoreBoardList.textContent = "";
+
   quizBoxEL.style.display = "none";
-
-  timeLeft = 0;
-  //   handleSaveScore();
-
   scoreBoardEL.style.display = "block";
+
+  // Render a new li for each user
+  for (var i = 0; i < users.length; i++) {
+    var user = users[i];
+
+    var li = document.createElement("li");
+    li.textContent = user;
+    li.setAttribute("data-index", i);
+
+    scoreBoardList.appendChild(li);
+  }
 }
 
-// button on scoreboard to start quiz
-quizStartButtonEL.addEventListener("click", beginQuiz);
+ClearButtonEL.addEventListener("click", function (event) {
+  var element = event.target;
 
-// button in "nav" area to show scoreboard
-scoreBoardNavEL.addEventListener("click", showScores);
+  if (element.matches("ClearButtonEL") === true) {
+    var index = element.parentElement.getAttribute("data-index");
+    users.splice(index, 1);
 
-// intiates function on page load
-showScores();
+    storeScores();
+    renderScoreboard();
+  }
+});
+
+Inti();
