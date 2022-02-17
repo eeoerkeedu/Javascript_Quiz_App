@@ -70,16 +70,29 @@ button {
   font-size: 1rem;
   margin-left: 5%;
   margin-right: 5%;
+  flex-wrap: wrap;
 }
 
-/* setting location for answer buttons and start button */
-#startquiz,
-#buttonbox {
+#questionzone {
+  margin-top: 2rem;
+}
+
+/* setting location for quiz start button */
+#startquiz {
   width: 50%;
-  display: inline;
   position: absolute;
   bottom: 20%;
   left: 25%;
+}
+
+/* setting location for answer buttons */
+#buttonbox {
+  width: 50%;
+  position: absolute;
+  bottom: 50%;
+  left: 25%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* aliging h2 */

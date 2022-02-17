@@ -21,12 +21,37 @@ var users = [];
 
 //questions to be asked
 var questions = [
-  "1. Inside which HTML element do we put the JavaScript?     1. <js>     2. <script>     3. <scripting>",
-  "2. How do you write 'Hello World' in an alert box?     1. msgBox('Hello World')    2. alertBox('Hello World')     3. alert('Hello World')",
-  "3. The external JavaScript file must contain the <script> tag?     1. True     2. False",
-  "How do you create a function in JavaScript?     1.function myFunction()    2. function:myFunction()    3. function = myFunction()",
-  "5. How to write an IF statement in JavaScript?     1. if i==5 then     2. if i=5 then    3. if (i==5)",
+  "1. Inside which HTML element do we put the JavaScript?",
+  "2. How do you write 'Hello World' in an alert box?",
+  "3. The external JavaScript file must contain the <script> tag?",
+  "4. How do you create a function in JavaScript?",
+  "5. How to write an IF statement in JavaScript?",
   "Done",
+];
+
+// button options to be displayed
+var button1Options = [
+  "1. <js>",
+  "1. msgBox('Hello World')",
+  "1. True",
+  "1.function myFunction()",
+  "1. if i==5 then",
+];
+
+var button2Options = [
+  "2. <script>",
+  "2. alertBox('Hello World')",
+  "2. False",
+  "2. function:myFunction()",
+  "2. if i=5 then",
+];
+
+var button3Options = [
+  "3. <scripting>",
+  "3. alert('Hello World')",
+  "3. N/A",
+  "3. function = myFunction()",
+  "3. if (i==5)",
 ];
 
 //answers to the questions
@@ -83,6 +108,9 @@ clearButtonEL.addEventListener("click", function (event) {
 
 // funtion used by begin quiz button, starts countdown before timer begins, and loads questionDisplay function
 function beginQuiz() {
+  answer1ButtonEL.textContent = "# 1.";
+  answer2ButtonEL.textContent = "# 2.";
+  answer3ButtonEL.textContent = "# 3.";
   scoreBoardEL.style.display = "none";
   timerEL.textContent = "";
   timerEL.style.display = "inline";
@@ -119,6 +147,9 @@ function displayQuestion() {
   var countDown = setInterval(function () {
     timeRemaining--;
     timerEL.textContent = timeRemaining + " Seconds Remaining";
+    answer1ButtonEL.textContent = button1Options[answerNum];
+    answer2ButtonEL.textContent = button2Options[answerNum];
+    answer3ButtonEL.textContent = button3Options[answerNum];
     questionZone.textContent = questions[questionNum];
     // If time is up send to end condition
     if (timeRemaining === 0 || timeRemaining < 0) {
