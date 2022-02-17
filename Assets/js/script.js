@@ -21,12 +21,6 @@ var timeRemaining = 0;
 var users = [];
 // var userName = "";
 
-//user profile to track stats
-var userProfile = {
-  userName: null,
-  userScore: 50,
-};
-
 //questions to be asked
 var questions = [
   "1. press 2",
@@ -55,19 +49,27 @@ function Inti() {
 }
 
 function handleScoreStore() {
+  //user profile to track stats
+  var userProfile = {
+    userName: "",
+    userScore: 0,
+  };
+
   var userName = window.prompt(
     "Please enter your initals to record your score"
   );
 
   userScore = timeRemaining;
-  users.push(userName);
+  users.push(userProfile);
+  console.log(userProfile);
 
   storeScores();
   renderScoreboard();
 }
 
 function storeScores() {
-  localStorage.setItem(users, JSON.stringify(users));
+  localStorage.setItem("users", JSON.stringify(users));
+  timerEL.style.display = "none";
 }
 
 function renderScoreboard() {
@@ -81,13 +83,13 @@ function renderScoreboard() {
     var user = users[i];
 
     var li = document.createElement("li");
-    li.textContent = "User: " + user + " Score: " + userScore;
+    li.textContent = "User: " + user + "    Score: " + userScore;
     li.setAttribute("data-index", i);
 
     var removeButton = document.createElement("button");
-    ClearButtonEL.textContent = "Remove";
+    removeButton.textContent = "Remove";
 
-    li.appendChild(button);
+    li.appendChild(removeButton);
     scoreBoardList.appendChild(li);
   }
 }
@@ -97,11 +99,11 @@ scoreBoardList.addEventListener("click", function (event) {
   if (element.matches("button") === true) {
     // Get its data-index value and remove the todo element from the list
     var index = element.parentElement.getAttribute("data-index");
-    todos.splice(index, 1);
+    users.splice(index, 1);
 
     // Store updated todos in localStorage, re-render the list
-    storeTodos();
-    renderTodos();
+    storeScores();
+    renderScoreboard();
   }
 });
 
@@ -115,8 +117,13 @@ scoreBoardList.addEventListener("click", function (event) {
 
 // funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
 function beginQuiz() {
-  //displays the quiz and hide the scoreboard
   scoreBoardEL.style.display = "none";
+  questionNum = [];
+  answerNum = [];
+  timeRemaining = 0;
+  timerEL.textContent = "";
+  timerEL.style.display = "inline";
+  questionZone.textContent = "";
   quizBoxEL.style.display = "block";
 
   userScore = [];
@@ -140,61 +147,62 @@ function beginQuiz() {
 }
 
 function displayQuestion() {
-  questionNum = [];
-  answerNum = [];
+  questionNum = 0;
+  answerNum = 0;
   timeRemaining = 50;
 
   var countDown = setInterval(function () {
     timeRemaining--;
     timerEL.textContent = timeRemaining + " Seconds Remaining";
     questionZone.textContent = questions[questionNum];
-    console.log("question num: " + questionNum);
     if (timeRemaining === 0 || timeRemaining < 0) {
       clearInterval(countDown);
       handleScoreStore();
     }
   }, 1000);
-
+  function checkEnd() {
+    if (questionNum == 10) {
+      handleScoreStore();
+      clearInterval(countDown);
+    }
+  }
   handleQuizAnswers();
 
-  if ((questionNum = questions.length)) {
-    handleScoreStore();
-  }
-}
+  function handleQuizAnswers() {
+    var userAnswer = 0;
 
-function handleQuizAnswers() {
-  var userAnswer = 0;
+    answer1ButtonEL.addEventListener("click", function () {
+      userAnswer = 1;
+      console.log(userAnswer);
+      console.log(answers[answerNum]);
+      console.log(userAnswer == answers[answerNum]);
+      checkTruth();
+    });
+    answer2ButtonEL.addEventListener("click", function () {
+      userAnswer = 2;
+      console.log(userAnswer);
+      console.log(answers[answerNum]);
+      console.log(userAnswer == answers[answerNum]);
+      checkTruth();
+    });
+    answer3ButtonEL.addEventListener("click", function () {
+      userAnswer = 3;
+      console.log(userAnswer);
+      console.log(answers[answerNum]);
+      console.log(userAnswer == answers[answerNum]);
+      checkTruth();
+    });
 
-  answer1ButtonEL.addEventListener("click", function () {
-    userAnswer = 1;
-    console.log(userAnswer);
-    console.log(answers[answerNum]);
-    console.log(userAnswer == answers[answerNum]);
-    checkTruth();
-  });
-  answer2ButtonEL.addEventListener("click", function () {
-    userAnswer = 2;
-    console.log(userAnswer);
-    console.log(answers[answerNum]);
-    console.log(userAnswer == answers[answerNum]);
-    checkTruth();
-  });
-  answer3ButtonEL.addEventListener("click", function () {
-    userAnswer = 3;
-    console.log(userAnswer);
-    console.log(answers[answerNum]);
-    console.log(userAnswer == answers[answerNum]);
-    checkTruth();
-  });
-
-  function checkTruth() {
-    if (userAnswer == answers[answerNum]) {
-      answerDisplayEL.textContent = "That was Correct!";
-      answerNum++;
-      questionNum++;
-    } else {
-      answerDisplayEL.textContent = "Incorrect, -5 seconds from quiz time";
-      timeRemaining -= 5;
+    function checkTruth() {
+      if (userAnswer == answers[answerNum]) {
+        answerDisplayEL.textContent = "That was Correct!";
+        answerNum++;
+        questionNum++;
+        checkEnd();
+      } else {
+        answerDisplayEL.textContent = "Incorrect, -5 seconds from quiz time";
+        timeRemaining -= 5;
+      }
     }
   }
 }
