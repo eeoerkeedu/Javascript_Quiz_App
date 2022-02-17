@@ -11,19 +11,20 @@ var answer2ButtonEL = document.getElementById("button2");
 var answer3ButtonEL = document.getElementById("button3");
 var answerDisplayEL = document.getElementById("answerDisplay");
 var scoreBoardList = document.getElementById("scoreboard");
-var ClearButtonEL = document.getElementById("clearbutton");
+// var ClearButtonEL = document.getElementById("clearbutton");
 
 //defining variables
 var questionNum = 0;
 var answerNum = 0;
 var timeLeft = 0;
+var timeRemaining = 0;
 var users = [];
+// var userName = "";
 
 //user profile to track stats
 var userProfile = {
-  userName: "",
-  userScore: 0,
-  userTime: 0,
+  userName: null,
+  userScore: 50,
 };
 
 //questions to be asked
@@ -38,13 +39,14 @@ var questions = [
   "8. press 1",
   "9. press 3",
   "10. press 1",
+  "Done",
 ];
 
 //answers to the questions
 var answers = ["2", "3", "2", "1", "3", "2", "2", "1", "3", "1"];
 
 function Inti() {
-  var storedScores = JSON.parse(localStorage.getItem("users"));
+  var storedScores = JSON.parse(localStorage.getItem(users));
 
   if (storedScores !== null) {
     users = storedScores;
@@ -52,23 +54,24 @@ function Inti() {
   renderScoreboard();
 }
 
-function storeScores() {
-  localStorage.setItem("users", JSON.stringify(users));
-}
-
 function handleScoreStore() {
   var userName = window.prompt(
     "Please enter your initals to record your score"
   );
 
+  userScore = timeRemaining;
   users.push(userName);
 
   storeScores();
   renderScoreboard();
 }
 
+function storeScores() {
+  localStorage.setItem(users, JSON.stringify(users));
+}
+
 function renderScoreboard() {
-  scoreBoardList.textContent = "";
+  scoreBoardList.innerHTML = "";
 
   quizBoxEL.style.display = "none";
   scoreBoardEL.style.display = "block";
@@ -78,23 +81,129 @@ function renderScoreboard() {
     var user = users[i];
 
     var li = document.createElement("li");
-    li.textContent = user;
+    li.textContent = "User: " + user + " Score: " + userScore;
     li.setAttribute("data-index", i);
 
+    var removeButton = document.createElement("button");
+    ClearButtonEL.textContent = "Remove";
+
+    li.appendChild(button);
     scoreBoardList.appendChild(li);
   }
 }
 
-ClearButtonEL.addEventListener("click", function (event) {
+scoreBoardList.addEventListener("click", function (event) {
   var element = event.target;
-
-  if (element.matches("ClearButtonEL") === true) {
+  if (element.matches("button") === true) {
+    // Get its data-index value and remove the todo element from the list
     var index = element.parentElement.getAttribute("data-index");
-    users.splice(index, 1);
+    todos.splice(index, 1);
 
-    storeScores();
-    renderScoreboard();
+    // Store updated todos in localStorage, re-render the list
+    storeTodos();
+    renderTodos();
   }
 });
 
+// ClearButtonEL.addEventListener("click", function (event) {
+//   event.preventDefault(event);
+//   localStorage.clear();
+//   // users = [];
+//   // storeScores();
+//   renderScoreboard();
+// });
+
+// funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
+function beginQuiz() {
+  //displays the quiz and hide the scoreboard
+  scoreBoardEL.style.display = "none";
+  quizBoxEL.style.display = "block";
+
+  userScore = [];
+  userName = [];
+  userTime = [];
+
+  alert("Beginning Quiz" + "\n" + "Watch your time...");
+
+  var timeLeft = 4;
+  var countDown = setInterval(function () {
+    // displayMessage();
+    timeLeft--;
+    timerEL.textContent = "Get ready, " + timeLeft;
+
+    if (timeLeft === 0) {
+      clearInterval(countDown);
+
+      displayQuestion();
+    }
+  }, 1000);
+}
+
+function displayQuestion() {
+  questionNum = [];
+  answerNum = [];
+  timeRemaining = 50;
+
+  var countDown = setInterval(function () {
+    timeRemaining--;
+    timerEL.textContent = timeRemaining + " Seconds Remaining";
+    questionZone.textContent = questions[questionNum];
+    console.log("question num: " + questionNum);
+    if (timeRemaining === 0 || timeRemaining < 0) {
+      clearInterval(countDown);
+      handleScoreStore();
+    }
+  }, 1000);
+
+  handleQuizAnswers();
+
+  if ((questionNum = questions.length)) {
+    handleScoreStore();
+  }
+}
+
+function handleQuizAnswers() {
+  var userAnswer = 0;
+
+  answer1ButtonEL.addEventListener("click", function () {
+    userAnswer = 1;
+    console.log(userAnswer);
+    console.log(answers[answerNum]);
+    console.log(userAnswer == answers[answerNum]);
+    checkTruth();
+  });
+  answer2ButtonEL.addEventListener("click", function () {
+    userAnswer = 2;
+    console.log(userAnswer);
+    console.log(answers[answerNum]);
+    console.log(userAnswer == answers[answerNum]);
+    checkTruth();
+  });
+  answer3ButtonEL.addEventListener("click", function () {
+    userAnswer = 3;
+    console.log(userAnswer);
+    console.log(answers[answerNum]);
+    console.log(userAnswer == answers[answerNum]);
+    checkTruth();
+  });
+
+  function checkTruth() {
+    if (userAnswer == answers[answerNum]) {
+      answerDisplayEL.textContent = "That was Correct!";
+      answerNum++;
+      questionNum++;
+    } else {
+      answerDisplayEL.textContent = "Incorrect, -5 seconds from quiz time";
+      timeRemaining -= 5;
+    }
+  }
+}
+
+// button on scoreboard to start quiz
+quizStartButtonEL.addEventListener("click", beginQuiz);
+
+// button in "nav" area to show scoreboard
+scoreBoardNavEL.addEventListener("click", renderScoreboard);
+
+// intiates function on page load
 Inti();

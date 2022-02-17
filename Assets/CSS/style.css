@@ -127,6 +127,10 @@ footer {
   left: 25%;
 }
 
+li {
+  list-style: none;
+}
+
 @media screen and (max-width: 768px) {
   h1 {
     text-align: left;
