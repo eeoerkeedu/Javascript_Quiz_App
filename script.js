@@ -18,7 +18,6 @@ var answerNum = 0;
 var timeLeft = 0;
 var timeRemaining = 0;
 var users = [];
-// var userName = "";
 
 //questions to be asked
 var questions = [
@@ -33,6 +32,7 @@ var questions = [
 //answers to the questions
 var answers = ["2", "3", "2", "1", "3"];
 
+// initial page load function, dispalys scores in memory via renderScoreboard if any
 function Inti() {
   var storedScores = JSON.parse(localStorage.getItem("users"));
 
@@ -42,22 +42,22 @@ function Inti() {
   renderScoreboard();
 }
 
+// adds user and score to array and local memory, then calls renderScoreboard
 function handleScoreStore() {
   var userName = window.prompt(
     "Please enter your initals to record your score"
   );
   var userScore = timeRemaining;
 
-  users.push([userName + "Score: " + userScore]);
+  users.push([userName + "--------Score: " + userScore]);
 
   localStorage.setItem("users", JSON.stringify(users));
   renderScoreboard();
   location.reload();
 }
 
+// returns to view of scoreboard, itterates the local memory for users and scores and displays on their own lines
 function renderScoreboard() {
-  // scoreBoardList.innerHTML = "";
-
   quizBoxEL.style.display = "none";
   scoreBoardEL.style.display = "block";
 
@@ -71,6 +71,7 @@ function renderScoreboard() {
   }
 }
 
+// clears the scoreboard of scores
 clearButtonEL.addEventListener("click", function (event) {
   var element = event.target;
   if (element.matches("button") === true) {
@@ -80,7 +81,7 @@ clearButtonEL.addEventListener("click", function (event) {
   }
 });
 
-// funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
+// funtion used by begin quiz button, starts countdown before timer begins, and loads questionDisplay function
 function beginQuiz() {
   scoreBoardEL.style.display = "none";
   timerEL.textContent = "";
@@ -108,21 +109,26 @@ function beginQuiz() {
   }, 1000);
 }
 
+// main quiz funtion, displays questions, set timer, checks timer for end condition
 function displayQuestion() {
   questionNum = 0;
   answerNum = 0;
   timeRemaining = 30;
 
+  // counts down the timer on the quiz
   var countDown = setInterval(function () {
     timeRemaining--;
     timerEL.textContent = timeRemaining + " Seconds Remaining";
     questionZone.textContent = questions[questionNum];
+    // If time is up send to end condition
     if (timeRemaining === 0 || timeRemaining < 0) {
       clearInterval(countDown);
       alert("Time's Up!");
       handleScoreStore();
     }
   }, 1000);
+
+  // stops timer and logs player info once all q's have been answered
   function checkEnd() {
     if (questionNum == 5) {
       handleScoreStore();
@@ -131,6 +137,7 @@ function displayQuestion() {
   }
   handleQuizAnswers();
 
+  // adds event listeners to the answer buttons and runs check for each click
   function handleQuizAnswers() {
     var userAnswer = 0;
 
@@ -147,6 +154,7 @@ function displayQuestion() {
       checkTruth();
     });
 
+    // determines if the player answer matches the correct answer, and moves along if correct, or punishes if inccorrect
     function checkTruth() {
       if (userAnswer == answers[answerNum]) {
         answerDisplayEL.textContent = "That was Correct!";

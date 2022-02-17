@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Java Script Fundamentals Quiz</title>
+    <!-- linked css -->
     <link rel="resetstyle" href="./Assets/CSS/reset.css">
     <link rel="normalizestyle" href="./Assets/CSS/normalize.css">
     <link rel="stylesheet" href="./Assets/CSS/style.css">
@@ -15,22 +16,26 @@
     <header>
         <h1> JS Fundamentals Quiz</h1>
         <section>
+            <!-- setting up timer for quiz in header -->
             <div class="nav" id="timer"></div>
         </section>
     </header>
     
     <main>
+        <!-- main quiz div that will hide on load and appear to take the quiz -->
         <div class="viewblock" id="quizblock">
             <div id="questionzone"></div>
             <div id="buttonbox">
-                <button class="answerButtons" id="button1"> 1. </button>
-                <button class="answerButtons" id="button2"> 2. </button>
-                <button class="answerButtons" id="button3"> 3. </button>
+                <button class="answerButtons" id="button1"> # 1. </button>
+                <button class="answerButtons" id="button2"> # 2. </button>
+                <button class="answerButtons" id="button3"> # 3. </button>
             </div>
             <div>
+                <!-- lets the user know if they answered correctly -->
                 <ul id="answerDisplay"></ul>
             </div>
         </div>
+        <!-- scoreboard viewer, has button to begin quiz -->
         <div class="viewblock" id="scoreblock">
             <h2>Scores!</h2>
             <section>
@@ -44,7 +49,7 @@
     <footer>
         <h2>Made by EEO</h2>
     </footer>
-
+    <!-- linked javascript -->
     <script src="script.js"></script>
 </body>
 </html>

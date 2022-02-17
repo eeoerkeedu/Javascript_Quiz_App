@@ -1,7 +1,9 @@
+/* setting background */
 body {
   background-color: rgb(0, 27, 0);
 }
 
+/* styling header */
 header {
   background-color: rgb(0, 39, 0);
   color: rgb(255, 255, 220);
@@ -14,6 +16,7 @@ header {
   position: relative;
 }
 
+/* setting timer location */
 header section {
   position: absolute;
   right: 0;
@@ -22,13 +25,13 @@ header section {
   display: inline;
   width: 50%;
 }
-
 header section div {
   display: inline;
   padding: 1%;
   text-align: left;
 }
 
+/* styling h1 */
 h1 {
   text-align: center;
   margin: 1%;
@@ -38,6 +41,7 @@ h1 {
   flex-shrink: 2;
 }
 
+/* formatting timer */
 #timer {
   position: absolute;
   bottom: 0;
@@ -46,21 +50,7 @@ h1 {
   font-size: x-large;
 }
 
-#highscores {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  margin-right: 3%;
-}
-
-#highscores a {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  color: rgb(255, 255, 220);
-}
-
+/* formatting main */
 main {
   min-height: 75vh;
   color: rgb(255, 255, 220);
@@ -70,6 +60,7 @@ main {
   flex-wrap: nowrap;
 }
 
+/* formatting all buttons */
 button {
   color: rgb(255, 255, 220);
   background-color: black;
@@ -81,6 +72,7 @@ button {
   margin-right: 5%;
 }
 
+/* setting location for answer buttons and start button */
 #startquiz,
 #buttonbox {
   width: 50%;
@@ -90,12 +82,14 @@ button {
   left: 25%;
 }
 
+/* aliging h2 */
 h2 {
   text-align: center;
   margin: 1%;
   padding: 1%;
 }
 
+/* styling footer */
 footer {
   background-color: rgb(0, 39, 0);
   color: rgb(255, 255, 220);
@@ -104,6 +98,7 @@ footer {
   border-radius: 0px 0px 15px 15px;
 }
 
+/* formatting the div's that the user sees most */
 .viewblock {
   width: 60%;
   height: 65vh;
@@ -113,6 +108,7 @@ footer {
   display: block;
 }
 
+/* setting location of score claer button and where the user sees if their input was right or wrong. */
 #clearbutton,
 #answerDisplay {
   justify-content: center;
@@ -121,10 +117,12 @@ footer {
   left: 25%;
 }
 
+/* removing scoreboard styling */
 li {
   list-style: none;
 }
 
+/* shifts for smaller media */
 @media screen and (max-width: 768px) {
   h1 {
     text-align: left;
