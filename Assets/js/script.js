@@ -50,10 +50,10 @@ function handleScoreStore() {
   var userScore = timeRemaining;
 
   users.push([userName + "Score: " + userScore]);
-  console.log(users);
 
   localStorage.setItem("users", JSON.stringify(users));
   renderScoreboard();
+  location.reload();
 }
 
 function renderScoreboard() {
@@ -76,24 +76,22 @@ clearButtonEL.addEventListener("click", function (event) {
   var element = event.target;
   if (element.matches("button") === true) {
     localStorage.clear();
-    scoreBoardList.removeChild();
+    users = [];
+    location.reload();
   }
 });
 
 // funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
 function beginQuiz() {
   scoreBoardEL.style.display = "none";
-  questionNum = [];
-  answerNum = [];
-  timeRemaining = 0;
   timerEL.textContent = "";
   timerEL.style.display = "inline";
   questionZone.textContent = "";
   quizBoxEL.style.display = "block";
-
-  userScore = [];
-  userName = [];
-  userTime = [];
+  questionNum = 0;
+  answerNum = 0;
+  userScore = 0;
+  userName = 0;
 
   alert("Beginning Quiz" + "\n" + "Watch your time...");
 
@@ -122,6 +120,7 @@ function displayQuestion() {
     questionZone.textContent = questions[questionNum];
     if (timeRemaining === 0 || timeRemaining < 0) {
       clearInterval(countDown);
+      alert("Time's Up!");
       handleScoreStore();
     }
   }, 1000);
@@ -138,23 +137,14 @@ function displayQuestion() {
 
     answer1ButtonEL.addEventListener("click", function () {
       userAnswer = 1;
-      console.log(userAnswer);
-      console.log(answers[answerNum]);
-      console.log(userAnswer == answers[answerNum]);
       checkTruth();
     });
     answer2ButtonEL.addEventListener("click", function () {
       userAnswer = 2;
-      console.log(userAnswer);
-      console.log(answers[answerNum]);
-      console.log(userAnswer == answers[answerNum]);
       checkTruth();
     });
     answer3ButtonEL.addEventListener("click", function () {
       userAnswer = 3;
-      console.log(userAnswer);
-      console.log(answers[answerNum]);
-      console.log(userAnswer == answers[answerNum]);
       checkTruth();
     });
 
@@ -166,7 +156,7 @@ function displayQuestion() {
         checkEnd();
       } else {
         answerDisplayEL.textContent = "Incorrect, -5 seconds from quiz time";
-        timeRemaining -= 5;
+        timeRemaining = timeRemaining - 5;
       }
     }
   }
