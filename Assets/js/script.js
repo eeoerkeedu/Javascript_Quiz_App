@@ -11,7 +11,7 @@ var answer2ButtonEL = document.getElementById("button2");
 var answer3ButtonEL = document.getElementById("button3");
 var answerDisplayEL = document.getElementById("answerDisplay");
 var scoreBoardList = document.getElementById("scoreboard");
-// var ClearButtonEL = document.getElementById("clearbutton");
+var clearButtonEL = document.getElementById("clearbutton");
 
 //defining variables
 var questionNum = 0;
@@ -28,19 +28,14 @@ var questions = [
   "3. press 2",
   "4. press 1",
   "5. press 3",
-  "6. press 2",
-  "7. press 2",
-  "8. press 1",
-  "9. press 3",
-  "10. press 1",
   "Done",
 ];
 
 //answers to the questions
-var answers = ["2", "3", "2", "1", "3", "2", "2", "1", "3", "1"];
+var answers = ["2", "3", "2", "1", "3"];
 
 function Inti() {
-  var storedScores = JSON.parse(localStorage.getItem(users));
+  var storedScores = JSON.parse(localStorage.getItem("users"));
 
   if (storedScores !== null) {
     users = storedScores;
@@ -49,31 +44,20 @@ function Inti() {
 }
 
 function handleScoreStore() {
-  //user profile to track stats
-  var userProfile = {
-    userName: "",
-    userScore: 0,
-  };
-
   var userName = window.prompt(
     "Please enter your initals to record your score"
   );
+  var userScore = timeRemaining;
 
-  userScore = timeRemaining;
-  users.push(userProfile);
-  console.log(userProfile);
+  users.push([userName + "Score: " + userScore]);
+  console.log(users);
 
-  storeScores();
+  localStorage.setItem("users", JSON.stringify(users));
   renderScoreboard();
 }
 
-function storeScores() {
-  localStorage.setItem("users", JSON.stringify(users));
-  timerEL.style.display = "none";
-}
-
 function renderScoreboard() {
-  scoreBoardList.innerHTML = "";
+  // scoreBoardList.innerHTML = "";
 
   quizBoxEL.style.display = "none";
   scoreBoardEL.style.display = "block";
@@ -83,37 +67,18 @@ function renderScoreboard() {
     var user = users[i];
 
     var li = document.createElement("li");
-    li.textContent = "User: " + user + "    Score: " + userScore;
-    li.setAttribute("data-index", i);
-
-    var removeButton = document.createElement("button");
-    removeButton.textContent = "Remove";
-
-    li.appendChild(removeButton);
+    li.textContent = "User: " + user;
     scoreBoardList.appendChild(li);
   }
 }
 
-scoreBoardList.addEventListener("click", function (event) {
+clearButtonEL.addEventListener("click", function (event) {
   var element = event.target;
   if (element.matches("button") === true) {
-    // Get its data-index value and remove the todo element from the list
-    var index = element.parentElement.getAttribute("data-index");
-    users.splice(index, 1);
-
-    // Store updated todos in localStorage, re-render the list
-    storeScores();
-    renderScoreboard();
+    localStorage.clear();
+    scoreBoardList.removeChild();
   }
 });
-
-// ClearButtonEL.addEventListener("click", function (event) {
-//   event.preventDefault(event);
-//   localStorage.clear();
-//   // users = [];
-//   // storeScores();
-//   renderScoreboard();
-// });
 
 // funtion used by begin quiz button, starts countdown before timer begins, and loads question display function
 function beginQuiz() {
@@ -149,7 +114,7 @@ function beginQuiz() {
 function displayQuestion() {
   questionNum = 0;
   answerNum = 0;
-  timeRemaining = 50;
+  timeRemaining = 30;
 
   var countDown = setInterval(function () {
     timeRemaining--;
@@ -161,7 +126,7 @@ function displayQuestion() {
     }
   }, 1000);
   function checkEnd() {
-    if (questionNum == 10) {
+    if (questionNum == 5) {
       handleScoreStore();
       clearInterval(countDown);
     }
